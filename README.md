@@ -1,5 +1,6 @@
 # EcoExchange 🌍  
 An intelligent, community-driven circular marketplace for sustainable resource recovery.
+<img width="1833" height="810" alt="image" src="https://github.com/user-attachments/assets/2da1725e-511b-467d-b764-ccd46eed49c4" />
 
 ## 💡 Project Overview  
 EcoExchange tackles the urgent global challenge of **waste mismanagement** and **unsustainable consumption**. In today’s linear economy (take → make → dispose), usable resources are discarded due to a lack of visibility, accessibility, and trust in existing resale and recycling systems. This platform reimagines the lifecycle of everyday goods—empowering users to **resell, repair, upcycle, or donate** items with the support of **AI-powered recommendations, pricing, and matchmaking.**
