@@ -1,73 +1,47 @@
-# Welcome to your Lovable project
+# EcoExchange 🌍  
+An intelligent, community-driven circular marketplace for sustainable resource recovery.
 
-## Project info
+## 💡 Project Overview  
+EcoExchange tackles the urgent global challenge of **waste mismanagement** and **unsustainable consumption**. In today’s linear economy (take → make → dispose), usable resources are discarded due to a lack of visibility, accessibility, and trust in existing resale and recycling systems. This platform reimagines the lifecycle of everyday goods—empowering users to **resell, repair, upcycle, or donate** items with the support of **AI-powered recommendations, pricing, and matchmaking.**
 
-**URL**: https://lovable.dev/projects/f30cb823-357c-44c1-b812-a5aa5ae39a71
+## 🌱 Why It Matters  
+- 🧠 **Awareness & Accessibility:** Most consumers lack awareness about reuse options nearby. EcoExchange intelligently bridges this gap.
+- 🔄 **Sustainable Circular Practices:** Enables reentry of materials into the supply chain, reducing landfill waste and carbon emissions.
+- 📉 **Affordable Alternatives:** Users access pre-loved goods and upcycled products at lower cost, reducing financial strain.
+- 🛠️ **Service Integration:** Connects users with local repair technicians and recyclers, revitalizing community economies.
+- 📊 **Impact Visualization:** Users see their personal contribution to environmental health in real-time—boosting accountability and engagement.
 
-## How can I edit this code?
+## 🔍 Key Features  
+- 🔎 **Smart Search & Matching** using semantic AI  
+- 🖼️ **AI Classification of Uploaded Items** via image recognition  
+- 💸 **Dynamic Pricing Suggestions** using regression models  
+- 📍 **Local Repair & Recovery Services Map**  
+- 📈 **User Impact Dashboard** for real-time sustainability metrics  
+- 📁 **Profile-based Suggestions** and personalized feeds  
 
-There are several ways of editing your application.
+## 🔧 Tech Stack  
+- **Frontend:** React.js, Tailwind CSS  
+- **Backend:** FastAPI, PostgreSQL  
+- **AI Services:** Computer Vision (Image classification), NLP (Semantic search), ML regression  
+- **Map & Geo:** Mapbox or Leaflet for service mapping  
+- **Cloud & Auth:** Firebase (Auth + Storage), GitHub Sync  
 
-**Use Lovable**
+## 🤖 AI/ML Scope  
+- Image classification of uploaded goods  
+- Predictive pricing models trained on item category, wear & usage  
+- Semantic matching of requests with listings  
+- Carbon footprint tracking & waste diversion analytics  
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f30cb823-357c-44c1-b812-a5aa5ae39a71) and start prompting.
+## 🎯 Target Use-Cases  
+- An individual looking to resell a broken laptop → receives price estimate + nearest repair shop suggestion  
+- A student searching for affordable furniture → matched with upcycled listings in her neighborhood  
+- A household wanting to declutter → uploads items and sees their reuse impact in dashboard metrics  
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/f30cb823-357c-44c1-b812-a5aa5ae39a71) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 📦 Repository Structure  
+```bash
+├── frontend/        # React UI Components  
+├── backend/         # FastAPI endpoints & ML integrations  
+├── models/          # Saved ML models & classifiers  
+├── services/        # Recommendation logic & utilities  
+├── docs/            # Markdown docs, API references  
+└── README.md
