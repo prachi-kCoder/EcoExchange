@@ -1,12 +1,47 @@
 import { Button } from "@/components/ui/button";
-import { Search, User, Plus } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Search, User, Plus, ArrowLeft } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Header = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [searchQuery, setSearchQuery] = useState("");
+  const isHomePage = location.pathname === "/";
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Simulate intelligent search with semantic understanding
+      const mockResults = [
+        { id: 1, title: "iPhone 12 - Good Condition", category: "Electronics", price: "$320", match: "95%" },
+        { id: 2, title: "Vintage Leather Jacket", category: "Textiles", price: "$85", match: "87%" },
+        { id: 3, title: "Wooden Coffee Table", category: "Furniture", price: "$120", match: "76%" }
+      ];
+      
+      toast({
+        title: `Found ${mockResults.length} intelligent matches`,
+        description: `Semantic search found items matching "${searchQuery}" with AI-powered relevance scoring`,
+      });
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center space-x-4">
+          {!isHomePage && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate(-1)}
+              className="mr-2 rounded-xl"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Button>
+          )}
           <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
               <div className="w-4 h-4 rounded-full border-2 border-white"></div>
@@ -18,14 +53,16 @@ const Header = () => {
         </div>
         
         <div className="flex-1 max-w-md mx-8">
-          <div className="relative">
+          <form onSubmit={handleSearch} className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <input
               type="text"
-              placeholder="Search for items, materials, services..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search: 'laptop charger', 'repair services', 'upcycling materials'..."
               className="w-full pl-10 pr-4 py-2 bg-muted border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
             />
-          </div>
+          </form>
         </div>
         
         <div className="flex items-center space-x-3">

@@ -71,9 +71,18 @@ const ListItem = () => {
         material: "Aluminum frame, glass screen, plastic components",
         condition: "Good",
         estimatedValue: "$120-160",
+        marketAnalysis: {
+          averagePrice: "$142",
+          priceRange: "$120-160", 
+          marketDemand: "High",
+          competitorPrices: ["$125", "$138", "$155"],
+          demandFactors: ["Back-to-school season", "Local tech hub demand", "Sustainable electronics trend"]
+        },
         personalizedPricing: {
           suggestedPrice: "$135",
-          reasoning: "Based on your successful trade history and local market demand in your area"
+          reasoning: "Based on your 92% success rate in electronics + current market trends",
+          pricingStrategy: "Optimal for quick sale while maximizing value",
+          confidenceLevel: "94%"
         },
         secondaryUses: ["Parts harvesting", "Refurbishment", "Educational purposes"],
         environmentalImpact: {
@@ -349,13 +358,27 @@ const ListItem = () => {
                 </div>
                 
                 <div className="space-y-4 text-sm">
-                  <div className="flex items-center space-x-2">
-                    <DollarSign className="w-4 h-4 text-green-600" />
-                    <span><strong>Recommended Price:</strong> {aiSuggestions.personalizedPricing.suggestedPrice}</span>
+                  <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-lg border border-green-200">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <DollarSign className="w-5 h-5 text-green-600" />
+                      <span className="font-semibold text-green-800">AI Fair Value Pricing</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <span className="text-muted-foreground">Market Average:</span>
+                        <div className="font-semibold">{aiSuggestions.marketAnalysis.averagePrice}</div>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Demand Level:</span>
+                        <div className="font-semibold text-green-600">{aiSuggestions.marketAnalysis.marketDemand}</div>
+                      </div>
+                    </div>
+                    <div className="mt-3 p-2 bg-white rounded border">
+                      <div className="text-lg font-bold text-primary">{aiSuggestions.personalizedPricing.suggestedPrice}</div>
+                      <div className="text-xs text-muted-foreground">{aiSuggestions.personalizedPricing.reasoning}</div>
+                      <div className="text-xs text-green-600 font-medium">Confidence: {aiSuggestions.personalizedPricing.confidenceLevel}</div>
+                    </div>
                   </div>
-                  <p className="text-xs text-muted-foreground ml-6">
-                    {aiSuggestions.personalizedPricing.reasoning}
-                  </p>
                   
                   <div className="pt-2 border-t">
                     <p><strong>Environmental Impact:</strong></p>
