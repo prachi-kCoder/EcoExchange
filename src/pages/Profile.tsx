@@ -1,9 +1,11 @@
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Settings, Edit, TrendingUp, Leaf, Droplets, Zap, Award, Target, Users, Calendar } from "lucide-react";
+import { Settings, Edit, TrendingUp, Leaf, Droplets, Zap, Award, Target, Users, Calendar, CheckCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const Profile = () => {
@@ -19,7 +21,7 @@ const Profile = () => {
     reviewCount: 23
   });
 
-  const [userImpact, setUserImpact] = useState({
+  const [userImpact] = useState({
     itemsListed: 12,
     itemsTraded: 8,
     totalValue: 450,
@@ -31,10 +33,8 @@ const Profile = () => {
     waterSaved: 15690,
     energyConserved: 8234,
     co2Reduced: 4.2,
-    materialsRecovered: 156
   });
 
-  // Simulate real-time updates
   useEffect(() => {
     const interval = setInterval(() => {
       setRealTimeMetrics(prev => ({
@@ -42,50 +42,16 @@ const Profile = () => {
         waterSaved: prev.waterSaved + Math.floor(Math.random() * 20),
         energyConserved: prev.energyConserved + Math.floor(Math.random() * 10),
         co2Reduced: prev.co2Reduced + Math.random() * 0.1,
-        materialsRecovered: prev.materialsRecovered + Math.floor(Math.random() * 2)
       }));
     }, 5000);
-
     return () => clearInterval(interval);
   }, []);
 
   const personalImpacts = [
-    {
-      icon: Leaf,
-      label: "Waste Diverted",
-      value: (userImpact.itemsTraded * 2.3).toFixed(1),
-      unit: "kg",
-      change: "+12%",
-      color: "primary",
-      description: "Kept out of landfills"
-    },
-    {
-      icon: Droplets,
-      label: "Water Saved",
-      value: (userImpact.itemsTraded * 145).toString(),
-      unit: "L",
-      change: "+8%",
-      color: "secondary",
-      description: "Manufacturing water saved"
-    },
-    {
-      icon: Zap,
-      label: "Energy Conserved", 
-      value: (userImpact.itemsTraded * 34).toString(),
-      unit: "kWh",
-      change: "+15%",
-      color: "accent",
-      description: "Production energy avoided"
-    },
-    {
-      icon: TrendingUp,
-      label: "CO₂ Reduced",
-      value: (userImpact.itemsTraded * 0.8).toFixed(1),
-      unit: "kg",
-      change: "+18%",
-      color: "primary",
-      description: "Carbon emissions prevented"
-    }
+    { icon: Leaf, label: "Waste Diverted", value: (userImpact.itemsTraded * 2.3).toFixed(1), unit: "kg", change: "+12%", color: "primary", description: "Kept out of landfills" },
+    { icon: Droplets, label: "Water Saved", value: (userImpact.itemsTraded * 145).toString(), unit: "L", change: "+8%", color: "secondary", description: "Manufacturing water saved" },
+    { icon: Zap, label: "Energy Conserved", value: (userImpact.itemsTraded * 34).toString(), unit: "kWh", change: "+15%", color: "accent", description: "Production energy avoided" },
+    { icon: TrendingUp, label: "CO₂ Reduced", value: (userImpact.itemsTraded * 0.8).toFixed(1), unit: "kg", change: "+18%", color: "primary", description: "Carbon emissions prevented" }
   ];
 
   const achievements = [
@@ -102,244 +68,226 @@ const Profile = () => {
     { action: "Received Review", item: "Great buyer experience!", date: "1 week ago", type: "review" }
   ];
 
+  const daysActive = Math.floor((Date.now() - new Date(userImpact.joinDate).getTime()) / (1000 * 60 * 60 * 24));
+
   return (
-    <div className="min-h-screen bg-background py-8">
-      <div className="container mx-auto px-4 max-w-6xl">
-        {/* Profile Header */}
-        <Card className="p-8 mb-8 border-0 shadow-elegant">
-          <div className="flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-6">
-            <Avatar className="w-24 h-24">
-              <AvatarImage src={userProfile.avatar} />
-              <AvatarFallback className="text-2xl bg-gradient-to-br from-primary to-secondary text-white">
-                {userProfile.name.split(' ').map(n => n[0]).join('')}
-              </AvatarFallback>
-            </Avatar>
-            
-            <div className="flex-1">
-              <div className="flex items-center space-x-3 mb-2">
-                <h1 className="text-3xl font-bold">{userProfile.name}</h1>
-                {userProfile.verified && (
-                  <Badge className="bg-primary/10 text-primary border-primary/20">Verified</Badge>
-                )}
-              </div>
-              <p className="text-muted-foreground mb-3">{userProfile.bio}</p>
-              <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                <span className="flex items-center">
-                  <Calendar className="w-4 h-4 mr-1" />
-                  Joined {new Date(userProfile.joinDate).toLocaleDateString('en-US', { 
-                    month: 'long', 
-                    year: 'numeric' 
-                  })}
-                </span>
-                <span>📍 {userProfile.location}</span>
-                <span>⭐ {userProfile.rating} ({userProfile.reviewCount} reviews)</span>
-              </div>
-            </div>
-            
-            <div className="flex space-x-3">
-              <Button variant="outline" size="sm">
-                <Edit className="w-4 h-4 mr-2" />
-                Edit Profile
-              </Button>
-              <Button variant="outline" size="sm">
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
-              </Button>
-            </div>
-          </div>
-        </Card>
+    <div className="min-h-screen bg-background flex flex-col">
+      <Header />
+      <main className="flex-1 py-6 sm:py-8">
+        <div className="container mx-auto px-4 max-w-6xl">
+          {/* Profile Header */}
+          <Card className="p-5 sm:p-8 mb-6 sm:mb-8 border-0 shadow-md bg-gradient-to-br from-card via-card to-primary/5">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-6">
+              <Avatar className="w-20 h-20 sm:w-24 sm:h-24 ring-4 ring-primary/10">
+                <AvatarImage src={userProfile.avatar} />
+                <AvatarFallback className="text-xl sm:text-2xl bg-gradient-to-br from-primary to-accent text-white font-bold">
+                  {userProfile.name.split(' ').map(n => n[0]).join('')}
+                </AvatarFallback>
+              </Avatar>
 
-        <Tabs defaultValue="impact" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="impact">Impact Dashboard</TabsTrigger>
-            <TabsTrigger value="activity">Recent Activity</TabsTrigger>
-            <TabsTrigger value="achievements">Achievements</TabsTrigger>
-            <TabsTrigger value="stats">Statistics</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="impact" className="space-y-6">
-            {/* Personal Statistics */}
-            <div className="grid md:grid-cols-4 gap-6">
-              <Card className="p-6 text-center border-0 shadow-soft">
-                <div className="text-3xl font-bold text-primary mb-2">{userImpact.itemsListed}</div>
-                <div className="text-sm text-muted-foreground">Items Listed</div>
-              </Card>
-              <Card className="p-6 text-center border-0 shadow-soft">
-                <div className="text-3xl font-bold text-secondary mb-2">{userImpact.itemsTraded}</div>
-                <div className="text-sm text-muted-foreground">Successful Trades</div>
-              </Card>
-              <Card className="p-6 text-center border-0 shadow-soft">
-                <div className="text-3xl font-bold text-accent mb-2">${userImpact.totalValue}</div>
-                <div className="text-sm text-muted-foreground">Value Circulated</div>
-              </Card>
-              <Card className="p-6 text-center border-0 shadow-soft">
-                <div className="text-3xl font-bold text-primary mb-2">
-                  {Math.floor((Date.now() - new Date(userImpact.joinDate).getTime()) / (1000 * 60 * 60 * 24))}
+              <div className="flex-1 text-center sm:text-left min-w-0">
+                <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
+                  <h1 className="text-2xl sm:text-3xl font-bold truncate">{userProfile.name}</h1>
+                  {userProfile.verified && (
+                    <CheckCircle className="w-5 h-5 text-primary shrink-0" />
+                  )}
                 </div>
-                <div className="text-sm text-muted-foreground">Days Active</div>
-              </Card>
+                <p className="text-sm sm:text-base text-muted-foreground mb-3 line-clamp-2">{userProfile.bio}</p>
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 text-xs sm:text-sm text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <Calendar className="w-3.5 h-3.5" />
+                    Joined {new Date(userProfile.joinDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                  </span>
+                  <span>📍 {userProfile.location}</span>
+                  <span>⭐ {userProfile.rating} ({userProfile.reviewCount})</span>
+                </div>
+              </div>
+
+              <div className="flex gap-2 shrink-0">
+                <Button variant="outline" size="sm" className="rounded-full text-xs sm:text-sm">
+                  <Edit className="w-3.5 h-3.5 mr-1.5" />
+                  Edit
+                </Button>
+                <Button variant="outline" size="sm" className="rounded-full text-xs sm:text-sm">
+                  <Settings className="w-3.5 h-3.5 mr-1.5" />
+                  Settings
+                </Button>
+              </div>
             </div>
-            
-            {/* Environmental Impact Metrics */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {personalImpacts.map((impact, index) => (
-                <Card key={index} className="p-6 text-center border-0 shadow-soft hover:shadow-medium transition-all">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 ${
-                    impact.color === 'primary' ? 'bg-primary/10' :
-                    impact.color === 'secondary' ? 'bg-secondary/10' : 'bg-accent/10'
-                  }`}>
-                    <impact.icon className={`w-6 h-6 ${
-                      impact.color === 'primary' ? 'text-primary' :
-                      impact.color === 'secondary' ? 'text-secondary' : 'text-accent'
-                    }`} />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="text-3xl font-bold text-foreground">{impact.value}</div>
-                    <div className="text-sm text-muted-foreground">{impact.unit}</div>
-                    <div className="text-xs text-muted-foreground">{impact.label}</div>
-                    <div className="text-xs text-green-600 font-medium">{impact.change} this month</div>
-                    <div className="text-xs text-muted-foreground/80">{impact.description}</div>
-                  </div>
-                </Card>
+          </Card>
+
+          {/* Tabs */}
+          <Tabs defaultValue="impact" className="space-y-5 sm:space-y-6">
+            <TabsList className="w-full grid grid-cols-4 h-auto p-1 rounded-xl">
+              {["impact", "activity", "achievements", "stats"].map((tab) => (
+                <TabsTrigger key={tab} value={tab} className="rounded-lg py-2 text-xs sm:text-sm capitalize">
+                  {tab === "impact" ? "Impact" : tab === "activity" ? "Activity" : tab === "achievements" ? "Badges" : "Stats"}
+                </TabsTrigger>
               ))}
-            </div>
+            </TabsList>
 
-            {/* Monthly Goals */}
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-4 flex items-center">
-                <Target className="w-6 h-6 mr-2 text-primary" />
-                Monthly Goals
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Trade 10 Items</span>
-                    <span>{userImpact.itemsTraded}/10</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div 
-                      className="bg-primary h-2 rounded-full transition-all"
-                      style={{ width: `${Math.min((userImpact.itemsTraded / 10) * 100, 100)}%` }}
-                    ></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Save 50kg Waste</span>
-                    <span>{(userImpact.itemsTraded * 2.3).toFixed(1)}/50 kg</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div 
-                      className="bg-secondary h-2 rounded-full transition-all"
-                      style={{ width: `${Math.min((userImpact.itemsTraded * 2.3 / 50) * 100, 100)}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="activity" className="space-y-4">
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-4">Recent Activity</h3>
-              <div className="space-y-4">
-                {recentActivity.map((activity, index) => (
-                  <div key={index} className="flex items-center space-x-4 p-4 rounded-lg bg-muted/30">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      activity.type === 'listing' ? 'bg-primary/10 text-primary' :
-                      activity.type === 'trade' ? 'bg-secondary/10 text-secondary' :
-                      'bg-accent/10 text-accent'
-                    }`}>
-                      {activity.type === 'listing' ? '📝' : activity.type === 'trade' ? '🤝' : '⭐'}
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-medium">{activity.action} {activity.item}</div>
-                      <div className="text-sm text-muted-foreground">{activity.date}</div>
-                    </div>
-                  </div>
+            {/* Impact Tab */}
+            <TabsContent value="impact" className="space-y-5 sm:space-y-6 animate-fade-in">
+              {/* Quick stats */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                {[
+                  { label: "Items Listed", value: userImpact.itemsListed, color: "text-primary" },
+                  { label: "Successful Trades", value: userImpact.itemsTraded, color: "text-secondary-foreground" },
+                  { label: "Value Circulated", value: `$${userImpact.totalValue}`, color: "text-accent" },
+                  { label: "Days Active", value: daysActive, color: "text-primary" },
+                ].map((stat) => (
+                  <Card key={stat.label} className="p-4 sm:p-5 text-center border-0 shadow-sm hover:shadow-md transition-shadow">
+                    <div className={`text-2xl sm:text-3xl font-bold ${stat.color} mb-1`}>{stat.value}</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
+                  </Card>
                 ))}
               </div>
-            </Card>
-          </TabsContent>
 
-          <TabsContent value="achievements">
-            <Card className="p-6">
-              <h3 className="text-xl font-bold mb-4 flex items-center">
-                <Award className="w-6 h-6 mr-2 text-accent" />
-                Achievements
-              </h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                {achievements.map((achievement, index) => (
-                  <div key={index} className={`flex items-center space-x-3 p-4 rounded-lg ${
-                    achievement.earned ? 'bg-green-50 border border-green-200' : 'bg-muted/30'
-                  }`}>
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                      achievement.earned ? 'bg-green-500 text-white' : 'bg-muted text-muted-foreground'
+              {/* Environmental metrics */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                {personalImpacts.map((impact, index) => (
+                  <Card key={index} className="p-4 sm:p-5 text-center border-0 shadow-sm hover:shadow-md transition-all group">
+                    <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform ${
+                      impact.color === 'primary' ? 'bg-primary/10' :
+                      impact.color === 'secondary' ? 'bg-secondary/10' : 'bg-accent/10'
                     }`}>
-                      <Award className="w-6 h-6" />
+                      <impact.icon className={`w-5 h-5 ${
+                        impact.color === 'primary' ? 'text-primary' :
+                        impact.color === 'secondary' ? 'text-secondary' : 'text-accent'
+                      }`} />
                     </div>
-                    <div className="flex-1">
-                      <div className="font-medium">{achievement.title}</div>
-                      <div className="text-sm text-muted-foreground">{achievement.description}</div>
-                    </div>
-                  </div>
+                    <div className="text-xl sm:text-2xl font-bold">{impact.value}</div>
+                    <div className="text-xs text-muted-foreground">{impact.unit} · {impact.label}</div>
+                    <div className="text-xs text-green-600 font-medium mt-1">{impact.change}</div>
+                  </Card>
                 ))}
               </div>
-            </Card>
-          </TabsContent>
 
-          <TabsContent value="stats">
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="p-6">
-                <h3 className="text-xl font-bold mb-4">Live Global Impact</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span>Waste Diverted</span>
-                    <span className="font-bold text-primary">{realTimeMetrics.wasteReduction.toLocaleString()} kg</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Water Saved</span>
-                    <span className="font-bold text-secondary">{realTimeMetrics.waterSaved.toLocaleString()} L</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Energy Conserved</span>
-                    <span className="font-bold text-accent">{realTimeMetrics.energyConserved.toLocaleString()} kWh</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>CO₂ Reduced</span>
-                    <span className="font-bold text-primary">{realTimeMetrics.co2Reduced.toFixed(1)} tons</span>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6">
-                <h3 className="text-xl font-bold mb-4 flex items-center">
-                  <Users className="w-6 h-6 mr-2" />
-                  Community Stats
+              {/* Monthly Goals */}
+              <Card className="p-5 sm:p-6 border-0 shadow-sm">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                  <Target className="w-5 h-5 text-primary" />
+                  Monthly Goals
                 </h3>
                 <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span>Your Rank</span>
-                    <span className="font-bold text-primary">#247</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Regional Rank</span>
-                    <span className="font-bold text-secondary">#12</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Impact Score</span>
-                    <span className="font-bold text-accent">89/100</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Community Level</span>
-                    <span className="font-bold text-primary">Eco Warrior</span>
-                  </div>
+                  {[
+                    { label: "Trade 10 Items", current: userImpact.itemsTraded, target: 10, color: "bg-primary" },
+                    { label: "Save 50kg Waste", current: parseFloat((userImpact.itemsTraded * 2.3).toFixed(1)), target: 50, color: "bg-secondary" },
+                  ].map((goal) => (
+                    <div key={goal.label}>
+                      <div className="flex justify-between text-sm mb-1.5">
+                        <span className="font-medium">{goal.label}</span>
+                        <span className="text-muted-foreground">{goal.current}/{goal.target}</span>
+                      </div>
+                      <div className="w-full bg-muted rounded-full h-2.5 overflow-hidden">
+                        <div
+                          className={`${goal.color} h-2.5 rounded-full transition-all duration-1000 ease-out`}
+                          style={{ width: `${Math.min((goal.current / goal.target) * 100, 100)}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
+            </TabsContent>
+
+            {/* Activity Tab */}
+            <TabsContent value="activity" className="animate-fade-in">
+              <Card className="p-5 sm:p-6 border-0 shadow-sm">
+                <h3 className="text-lg font-bold mb-4">Recent Activity</h3>
+                <div className="space-y-3">
+                  {recentActivity.map((activity, index) => (
+                    <div key={index} className="flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors">
+                      <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm shrink-0 ${
+                        activity.type === 'listing' ? 'bg-primary/10' :
+                        activity.type === 'trade' ? 'bg-secondary/10' : 'bg-accent/10'
+                      }`}>
+                        {activity.type === 'listing' ? '📝' : activity.type === 'trade' ? '🤝' : '⭐'}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-sm sm:text-base truncate">{activity.action}: {activity.item}</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground">{activity.date}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </TabsContent>
+
+            {/* Achievements Tab */}
+            <TabsContent value="achievements" className="animate-fade-in">
+              <Card className="p-5 sm:p-6 border-0 shadow-sm">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                  <Award className="w-5 h-5 text-accent" />
+                  Achievements
+                </h3>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {achievements.map((achievement, index) => (
+                    <div key={index} className={`flex items-center gap-3 p-4 rounded-xl transition-all ${
+                      achievement.earned
+                        ? 'bg-primary/5 border border-primary/15 hover:border-primary/30'
+                        : 'bg-muted/30 opacity-60'
+                    }`}>
+                      <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center shrink-0 ${
+                        achievement.earned ? 'bg-primary text-white' : 'bg-muted text-muted-foreground'
+                      }`}>
+                        <Award className="w-5 h-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-medium text-sm">{achievement.title}</div>
+                        <div className="text-xs text-muted-foreground">{achievement.description}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </TabsContent>
+
+            {/* Stats Tab */}
+            <TabsContent value="stats" className="animate-fade-in">
+              <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+                <Card className="p-5 sm:p-6 border-0 shadow-sm">
+                  <h3 className="text-lg font-bold mb-4">🌍 Live Global Impact</h3>
+                  <div className="space-y-3">
+                    {[
+                      { label: "Waste Diverted", value: `${realTimeMetrics.wasteReduction.toLocaleString()} kg`, color: "text-primary" },
+                      { label: "Water Saved", value: `${realTimeMetrics.waterSaved.toLocaleString()} L`, color: "text-secondary-foreground" },
+                      { label: "Energy Conserved", value: `${realTimeMetrics.energyConserved.toLocaleString()} kWh`, color: "text-accent" },
+                      { label: "CO₂ Reduced", value: `${realTimeMetrics.co2Reduced.toFixed(1)} tons`, color: "text-primary" },
+                    ].map((stat) => (
+                      <div key={stat.label} className="flex justify-between items-center py-2 border-b border-border/30 last:border-0">
+                        <span className="text-sm text-muted-foreground">{stat.label}</span>
+                        <span className={`font-bold text-sm ${stat.color}`}>{stat.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+
+                <Card className="p-5 sm:p-6 border-0 shadow-sm">
+                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                    <Users className="w-5 h-5" />
+                    Community Rank
+                  </h3>
+                  <div className="space-y-3">
+                    {[
+                      { label: "Global Rank", value: "#247", color: "text-primary" },
+                      { label: "Regional Rank", value: "#12", color: "text-secondary-foreground" },
+                      { label: "Impact Score", value: "89/100", color: "text-accent" },
+                      { label: "Level", value: "Eco Warrior", color: "text-primary" },
+                    ].map((stat) => (
+                      <div key={stat.label} className="flex justify-between items-center py-2 border-b border-border/30 last:border-0">
+                        <span className="text-sm text-muted-foreground">{stat.label}</span>
+                        <span className={`font-bold text-sm ${stat.color}`}>{stat.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };
